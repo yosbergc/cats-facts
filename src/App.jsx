@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 function App() {
     const [fact, setFact] = useState('')
+    const factThreeWords = fact.split(' ', 3).join(' ')
     const [factImageSrc, setFactImageSrc] = useState('')
     const [loading, setLoading] = useState(false)
 
@@ -22,12 +23,19 @@ function App() {
 
     useEffect(() => {
         if (fact.length === 0) return;
-        
+        fetch(`https://cataas.com/cat/says/${factThreeWords}`)
+          .then(res => res.blob())
+          .then(data => {
+            const url = URL.createObjectURL(data)
+            setFactImageSrc(url)
+          })
     }, [fact])
     return (
         <>
             <h1>App de gatitos</h1>
+            {loading && <p>Cargando...</p>}
             {fact && <p>{fact}</p>}
+            {factImageSrc && <img src={factImageSrc} />}
         </>
     )
 }
