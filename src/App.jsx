@@ -1,25 +1,9 @@
 import { useEffect, useState } from "react"
+import { useCatFact } from "./hooks/useCatFact"
+import './app.css'
 function App() {
-    const [fact, setFact] = useState('')
-    const factThreeWords = fact.split(' ', 3).join(' ')
+    const {fact, factThreeWords, loading} = useCatFact()
     const [factImageSrc, setFactImageSrc] = useState('')
-    const [loading, setLoading] = useState(false)
-
-    useEffect(() => {
-        setLoading(true)
-        fetch('https://catfact.ninja/fact')
-          .then(res => {
-            if (!res.ok) {
-                throw new Error('Hubo un error con la solicitud')
-            }
-            return res.json()
-          })
-          .then(data => setFact(data.fact))
-          .catch(error => {
-            console.log(error)
-          })
-          .finally(() => setLoading(false))
-    }, [])
 
     useEffect(() => {
         if (fact.length === 0) return;
@@ -35,7 +19,7 @@ function App() {
             <h1>App de gatitos</h1>
             {loading && <p>Cargando...</p>}
             {fact && <p>{fact}</p>}
-            {factImageSrc && <img src={factImageSrc} />}
+            {factImageSrc && <img src={factImageSrc} className="photo"/>}
         </>
     )
 }
