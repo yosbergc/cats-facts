@@ -1,19 +1,9 @@
-import { useEffect, useState } from "react"
 import { useCatFact } from "./hooks/useCatFact"
+import { useCatPic } from "./hooks/useCatPic"
 import './app.css'
 function App() {
-    const {fact, factThreeWords, loading} = useCatFact()
-    const [factImageSrc, setFactImageSrc] = useState('')
-
-    useEffect(() => {
-        if (fact.length === 0) return;
-        fetch(`https://cataas.com/cat/says/${factThreeWords}`)
-          .then(res => res.blob())
-          .then(data => {
-            const url = URL.createObjectURL(data)
-            setFactImageSrc(url)
-          })
-    }, [fact])
+    const {fact, loading} = useCatFact()
+    const { factImageSrc } = useCatPic({ fact })
     return (
         <>
             <h1>App de gatitos</h1>
