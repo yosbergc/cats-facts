@@ -10,3 +10,11 @@ export async function getCatFact() {
         throw error;
     }
 }
+export async function getCatImage({ factThreeWords }) {
+    return fetch(`https://cataas.com/cat/says/${factThreeWords}`)
+    .then(res => res.blob())
+    .then(data => {
+      const url = URL.createObjectURL(data)
+      return url;
+    })
+}

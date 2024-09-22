@@ -1,17 +1,13 @@
 import { useState, useEffect } from "react";
-
+import { getCatImage } from "../services/catFact";
 function useCatPic({ fact }) {
     const [factImageSrc, setFactImageSrc] = useState('')
     
     useEffect(() => {
         if (fact.length === 0) return;
         const factThreeWords = fact.split(' ', 3).join(' ')
-        fetch(`https://cataas.com/cat/says/${factThreeWords}`)
-          .then(res => res.blob())
-          .then(data => {
-            const url = URL.createObjectURL(data)
-            setFactImageSrc(url)
-          })
+        getCatImage(factThreeWords)
+          .then(data => setFactImageSrc(data))
     }, [fact])
 
     return { factImageSrc }
